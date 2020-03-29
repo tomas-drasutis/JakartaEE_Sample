@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -32,6 +34,13 @@ public class Product implements Serializable {
     @ManyToOne
     @JoinColumn(name = "PRODUCER_ID")
     private Producer producer;
+
+    @ManyToMany(mappedBy = "productList")
+    private List<Receiver> receiverList = new ArrayList();
+
+    @Version
+    @Column(name="OPT_LOCK_VERSION")
+    private Integer version;
 
     public Product() {
     }

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:head>
+    <h:outputStylesheet name="css/styles.css" />
+    <title>Request type usecase (DAO with MyBatis)</title>
+</h:head>
+
+<h:body>
+    <h1>Request type usecase example (DAO with MyBatis)</h1>
+    <h:form>
+        <p:fieldset legend="All products" toggleable="true" style="width: 50%">
+            <p:dataTable value="#{mybatisController.products}" var="product">
+                <p:column headerText="Products">
+                    <h:outputText value="#{product.name} (Price: #{product.price}€)" />
+                </p:column>
+                <p:column headerText="Producer">
+                    <ui:repeat var="producer" value="#{mybatisController.getProducerById(product.producerId)}">
+                        <p>#{producer.name}</p>
+                    </ui:repeat>
+                </p:column>
+                <p:column headerText="Receivers">
+                    <ui:repeat var="receiver" value="#{mybatisController.getProductReceivers(product.id)}">
+                        <p>#{receiver.name}</p>
+                    </ui:repeat>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+
+        <h2>Assign product to receiver</h2>
+        <table>
+            <tr>
+                <td>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="receiver" value="Receiver"/>
+                        <p:selectOneMenu id="receiver" value="#{mybatisController.receiver.id}">
+                            <f:selectItems value="#{mybatisController.receivers}" var="receiver" itemLabel="#{receiver.name}" itemValue="#{receiver.id}"/>
+                        </p:selectOneMenu>
+                        <p:message for="receiver"/>
+                    </h:panelGrid>
+                </td>
+                <td>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="product" value="Product"/>
+                        <p:selectOneMenu id="product" value="#{mybatisController.productToAssign.id}">
+                            <f:selectItems value="#{mybatisController.products}" var="product" itemLabel="#{product.name}" itemValue="#{product.id}"/>
+                        </p:selectOneMenu>
+                        <p:message for="product"/>
+                    </h:panelGrid>
+                </td>
+            </tr>
+        </table>
+
+        <p:commandButton value="Assign"
+                         actionListener="#{mybatisController.assignProductToReceiver()}"
+                         action="mybatis-usecase?faces-redirect=true"
+                         ajax="false"/>
+
+        <p:messages globalOnly="true"/>
+
+        <h2>Create new product</h2>
+        <table>
+            <tr>
+                <td>
+                    <h:panelGrid columns="6">
+                        <p:outputLabel for="productName" value="Product name"/>
+                        <p:inputText id="productName" value="#{mybatisController.product.name}"/>
+                        <p:message for="productName"/>
+
+                        <p:outputLabel for="productPrice" value="Price"/>
+                        <p:inputText id="productPrice" value="#{mybatisController.product.price}"/>
+                        <p:message for="productPrice"/>
+
+                        <p:outputLabel for="productProducer" value="Producer"/>
+                        <p:selectOneMenu id="productProducer" value="#{mybatisController.producer.id}">
+                            <f:selectItems value="#{mybatisController.producers}" var="producer" itemLabel="#{producer.name}" itemValue="#{producer.id}"/>
+                        </p:selectOneMenu>
+                        <p:message for="productProducer"/>
+                    </h:panelGrid>
+                </td>
+            </tr>
+        </table>
+
+        <p:commandButton value="Create new product"
+                         actionListener="#{mybatisController.createNewProduct()}"
+                         action="mybatis-usecase?faces-redirect=true"
+                         ajax="false"/>
+
+        <p:messages globalOnly="true"/>
+
+        <h2>Create new producer</h2>
+        <table>
+            <tr>
+                <td>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="producerName" value="Producer name"/>
+                        <p:inputText id="producerName" value="#{mybatisController.producer.name}"/>
+                        <p:message for="producerName"/>
+                    </h:panelGrid>
+                </td>
+            </tr>
+        </table>
+
+        <p:commandButton value="Create new producer"
+                         actionListener="#{mybatisController.createNewProducer()}"
+                         action="mybatis-usecase?faces-redirect=true"
+                         ajax="false"/>
+
+        <p:messages globalOnly="true"/>
+
+        <h2>Create new receiver</h2>
+        <table>
+            <tr>
+                <td>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="receiverName" value="Receiver name"/>
+                        <p:inputText id="receiverName" value="#{mybatisController.receiver.name}"/>
+                        <p:message for="receiverName"/>
+                    </h:panelGrid>
+                </td>
+            </tr>
+        </table>
+
+        <p:commandButton value="Create new receiver"
+                         actionListener="#{mybatisController.createNewReceiver()}"
+                         action="mybatis-usecase?faces-redirect=true"
+                         ajax="false"/>
+
+        <p:messages globalOnly="true"/>
+
+    </h:form>
+
+</h:body>
+</html>

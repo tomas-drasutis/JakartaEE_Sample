@@ -26,8 +26,8 @@ public class Producer {
     @Column(name = "NAME", nullable =  false)
     private String name;
 
-    @OneToMany(mappedBy = "producer", fetch = FetchType.EAGER)
-    private List<Product> products = new ArrayList();
+    @OneToMany(mappedBy = "producer")
+    private List<Product> productList = new ArrayList();
 
     public Producer() {
 

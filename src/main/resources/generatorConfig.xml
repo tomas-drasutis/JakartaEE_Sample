@@ -4,26 +4,28 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <context id="PlayersDB" targetRuntime="MyBatis3Simple">
+    <context id="FactoryDB" targetRuntime="MyBatis3Simple">
         <jdbcConnection driverClass="org.h2.Driver"
                         connectionURL="jdbc:h2:~/h2database/FactoryDB;AUTO_SERVER=TRUE"
-                        userId="as"
-                        password="as">
+                        userId="sa"
+                        password="sa">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="todr.persistence.mybatis.model" targetProject="MAVEN" />
+        <javaModelGenerator targetPackage="todr.mybatis.model" targetProject="MAVEN" />
 
         <sqlMapGenerator targetPackage="todr.usecases.mybatis.xml" targetProject="MAVEN" />
         <javaClientGenerator type="XMLMAPPER" targetPackage="todr.mybatis.dao" targetProject="MAVEN" />
 
-
         <table schema="public" tableName="producer">
             <generatedKey column="id" identity="true" sqlStatement="JDBC" />
-            <ignoreColumn column="opt_lock_version" />
         </table>
         <table schema="public" tableName="product">
             <generatedKey column="id" identity="true" sqlStatement="JDBC" />
-            <ignoreColumn column="opt_lock_version" />
+        </table>
+        <table schema="public" tableName="receiver">
+            <generatedKey column="id" identity="true" sqlStatement="JDBC" />
+        </table>
+        <table schema="public" tableName="receiver_product">
         </table>
     </context>
 </generatorConfiguration>
